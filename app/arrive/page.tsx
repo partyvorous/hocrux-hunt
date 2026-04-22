@@ -174,7 +174,9 @@ function ArriveContent() {
             const updated = {
               ...session,
               currentStage: "stage-7" as StageId,
-              completedStages: [...new Set([...session.completedStages, "stage-7"])],
+              completedStages: session.completedStages.includes("stage-7" as StageId)
+                  ? session.completedStages
+                  : ([...session.completedStages, "stage-7"] as StageId[]),
             };
             saveSession(updated);
           }
@@ -959,7 +961,6 @@ function ArriveContent() {
                           </div>
                           <motion.button
                             onClick={() => handleCodeSubmit(puzzleCode)}
-                            disabled={pageState === "submitting"}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.97 }}
                             className="parchment-btn w-full"
@@ -968,7 +969,7 @@ function ArriveContent() {
                               boxShadow: `0 0 20px ${houseGlow}25`,
                             }}
                           >
-                            {pageState === "submitting" ? "Verifying…" : "⚡ Enter the Vault"}
+                            ⚡ Enter the Vault
                           </motion.button>
                         </div>
                         <div style={{ height: "2px", background: "linear-gradient(90deg, transparent, rgba(251,191,36,0.7), transparent)" }} />
