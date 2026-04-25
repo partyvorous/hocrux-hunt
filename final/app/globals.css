@@ -1,0 +1,542 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────────
+   HP Dark Theme — Base
+───────────────────────────────────────────────────────────────── */
+:root {
+  --parchment: #c9a96e;
+  --parchment-light: #f5e6c8;
+  --parchment-bg: #1e1610;
+  --gold: #d4af37;
+  --gold-light: #ffd700;
+  --hp-dark: #0a0a1a;
+  --hp-dark-lighter: #12122a;
+  --hp-card: #1a1a3a;
+  --text-parchment: #f0d9a0;
+  --text-muted: #8a7a5a;
+
+  /* House accent variables (overridden per house) */
+  --house-primary: #c9a96e;
+  --house-secondary: #8b6914;
+  --house-glow: rgba(201, 169, 110, 0.4);
+}
+
+/* House-specific CSS classes */
+.house-gryffindor {
+  --house-primary: #d3a625;
+  --house-secondary: #740001;
+  --house-glow: rgba(211, 166, 37, 0.5);
+}
+.house-slytherin {
+  --house-primary: #2a9d5c;
+  --house-secondary: #1a472a;
+  --house-glow: rgba(42, 157, 92, 0.4);
+}
+.house-ravenclaw {
+  --house-primary: #5c87c9;
+  --house-secondary: #0e1a40;
+  --house-glow: rgba(92, 135, 201, 0.4);
+}
+.house-hufflepuff {
+  --house-primary: #ecb939;
+  --house-secondary: #372e29;
+  --house-glow: rgba(236, 185, 57, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: var(--hp-dark);
+  color: var(--text-parchment);
+}
+
+body {
+  font-family: var(--font-crimson), Georgia, serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Starfield Background
+───────────────────────────────────────────────────────────────── */
+.starfield {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, #1a1a3a 0%, #0a0a1a 60%, #000005 100%);
+  z-index: -2;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  animation: twinkle var(--duration, 3s) ease-in-out infinite var(--delay, 0s);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.2; transform: scale(0.6); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Floating Candles
+───────────────────────────────────────────────────────────────── */
+.candle-wrap {
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.candle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: floatCandle var(--duration, 6s) ease-in-out infinite var(--delay, 0s);
+  opacity: 0.7;
+}
+
+.candle-body {
+  width: 6px;
+  height: 30px;
+  background: linear-gradient(to bottom, #f5e6c8, #c9a96e, #8b6914);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(201, 169, 110, 0.3);
+}
+
+.candle-flame {
+  width: 8px;
+  height: 14px;
+  background: radial-gradient(ellipse at 50% 70%, #fff5cc 0%, #ffd700 40%, #ff6600 70%, transparent 100%);
+  border-radius: 50% 50% 30% 30%;
+  position: relative;
+  top: -1px;
+  animation: flicker 0.15s ease-in-out infinite alternate;
+  box-shadow: 0 0 8px #ffd700, 0 0 20px rgba(255, 166, 0, 0.4);
+}
+
+.candle-glow {
+  position: absolute;
+  top: -20px;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(255, 200, 0, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes floatCandle {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  33% { transform: translateY(-18px) rotate(1.5deg); }
+  66% { transform: translateY(-8px) rotate(-0.5deg); }
+}
+
+@keyframes flicker {
+  0% { transform: scaleX(1) scaleY(1); }
+  100% { transform: scaleX(0.9) scaleY(1.05); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Parchment Cards
+───────────────────────────────────────────────────────────────── */
+.parchment-card {
+  background: linear-gradient(
+    135deg,
+    #2a2010 0%,
+    #1e1a0e 25%,
+    #251f10 50%,
+    #1a1608 75%,
+    #221c0c 100%
+  );
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  border-radius: 4px;
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 0.8),
+    inset 0 0 60px rgba(0, 0, 0, 0.3),
+    0 0 2px rgba(201, 169, 110, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.parchment-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.parchment-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Wax Seal Button
+───────────────────────────────────────────────────────────────── */
+.wax-seal-btn {
+  position: relative;
+  background: radial-gradient(circle at 35% 35%, #c0392b, #8b1a1a 60%, #6b0f0f);
+  border: none;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 100, 100, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.5rem;
+  color: rgba(255, 220, 200, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.wax-seal-btn::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 100, 80, 0.2);
+}
+
+.wax-seal-btn:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(192, 57, 43, 0.4),
+    inset 0 1px 1px rgba(255, 100, 100, 0.3);
+}
+
+.wax-seal-btn:active {
+  transform: scale(0.97);
+}
+
+/* Full-width parchment submit button */
+.parchment-btn {
+  background: linear-gradient(135deg, #2a1f0a, #3d2c0a, #2a1f0a);
+  border: 1px solid rgba(201, 169, 110, 0.5);
+  color: var(--parchment);
+  font-family: var(--font-cinzel), serif;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  padding: 0.75rem 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+.parchment-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.parchment-btn:hover::before {
+  transform: translateX(100%);
+}
+
+.parchment-btn:hover {
+  border-color: var(--gold-light);
+  box-shadow: 0 0 20px rgba(201, 169, 110, 0.3), inset 0 0 20px rgba(201, 169, 110, 0.05);
+  color: var(--gold-light);
+}
+
+.parchment-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Ministry Seal
+───────────────────────────────────────────────────────────────── */
+.ministry-seal {
+  display: inline-block;
+  position: relative;
+}
+
+.ministry-seal-inner {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid rgba(201, 169, 110, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(20, 15, 5, 0.9) 0%, rgba(10, 8, 2, 0.95) 100%);
+  box-shadow:
+    0 0 20px rgba(201, 169, 110, 0.3),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
+  font-size: 3rem;
+  position: relative;
+}
+
+.ministry-seal-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--hp-dark), var(--hp-dark)) padding-box,
+              conic-gradient(from 0deg, #c9a96e, #ffd700, #8b6914, #c9a96e) border-box;
+  animation: rotateSeal 8s linear infinite;
+}
+
+@keyframes rotateSeal {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.ministry-seal-text {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  top: -15px;
+  left: -15px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   House Selector
+───────────────────────────────────────────────────────────────── */
+.house-select {
+  background: rgba(10, 8, 2, 0.8);
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  color: var(--text-parchment);
+  font-family: var(--font-cinzel), serif;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.house-select:focus {
+  border-color: var(--house-primary, var(--parchment));
+  box-shadow: 0 0 12px var(--house-glow, rgba(201, 169, 110, 0.3));
+}
+
+.house-select option {
+  background: #0a0a1a;
+  color: #f0d9a0;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Access Code Input
+───────────────────────────────────────────────────────────────── */
+.code-input {
+  background: rgba(5, 5, 15, 0.9);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  border-bottom: 2px solid rgba(201, 169, 110, 0.6);
+  color: var(--gold-light);
+  font-family: "Courier New", monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.3em;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  outline: none;
+  text-transform: uppercase;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.code-input:focus {
+  border-color: rgba(201, 169, 110, 0.8);
+  box-shadow: 0 0 20px rgba(201, 169, 110, 0.2), inset 0 0 10px rgba(201, 169, 110, 0.05);
+}
+
+.code-input.error {
+  border-color: rgba(220, 50, 50, 0.8);
+  animation: shake 0.5s ease-in-out;
+}
+
+.code-input::placeholder {
+  color: rgba(201, 169, 110, 0.3);
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Clue Reveal / Scroll Unfurl
+───────────────────────────────────────────────────────────────── */
+.scroll-container {
+  overflow: hidden;
+  transition: max-height 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.clue-text {
+  font-family: var(--font-crimson), serif;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-parchment);
+  font-style: italic;
+}
+
+.clue-riddle {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1rem;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Typography Helpers
+───────────────────────────────────────────────────────────────── */
+.heading-cinzel {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.08em;
+  color: var(--gold-light);
+  text-shadow: 0 0 20px rgba(201, 169, 110, 0.5);
+}
+
+.subheading-cinzel {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.05em;
+  color: var(--parchment);
+  font-size: 0.85rem;
+}
+
+.divider-magic {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.5), transparent);
+  margin: 1.5rem 0;
+}
+
+.label-parchment {
+  font-family: var(--font-cinzel), serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  opacity: 0.7;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Shimmer Gold Text
+───────────────────────────────────────────────────────────────── */
+.shimmer-gold {
+  display: inline-block;
+  padding: 0.05em 0.15em;
+  background: linear-gradient(90deg, #c9a96e 0%, #ffd700 25%, #c9a96e 50%, #ffd700 75%, #c9a96e 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Error / Success States
+───────────────────────────────────────────────────────────────── */
+.error-message {
+  color: #e57373;
+  font-family: var(--font-cinzel), serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(229, 115, 115, 0.1);
+  border: 1px solid rgba(229, 115, 115, 0.2);
+  border-radius: 2px;
+}
+
+.success-glow {
+  box-shadow: 0 0 30px rgba(var(--house-primary), 0.5) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Scrollbar
+───────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--hp-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 110, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 169, 110, 0.5);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Utility
+───────────────────────────────────────────────────────────────── */
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 10px var(--house-glow, rgba(201, 169, 110, 0.4)); }
+  50% { box-shadow: 0 0 30px var(--house-glow, rgba(201, 169, 110, 0.8)), 0 0 60px var(--house-glow, rgba(201, 169, 110, 0.3)); }
+}
+
+/* House badge */
+.house-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--house-primary, rgba(201, 169, 110, 0.4));
+  border-radius: 2px;
+  font-family: var(--font-cinzel), serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--house-primary, var(--parchment));
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+}
